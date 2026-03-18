@@ -1,0 +1,20 @@
+{
+  "name": "@repo/prettier-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base": {
+      "types": "./base.d.ts",
+      "default": "./base.js"
+    },
+    "./svelte": {
+      "types": "./svelte.d.ts",
+      "default": "./svelte.js"
+    }
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-svelte": "^3.5.1"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@repo/stylelint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./svelte": {
+      "types": "./svelte.d.ts",
+      "default": "./svelte.js"
+    }
+  },
+  "devDependencies": {
+    "postcss-html": "^1.8.1",
+    "stylelint": "^17.4.0",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-recess-order": "^7.7.0",
+    "stylelint-config-standard-scss": "^17.0.0"
+  }
+}
