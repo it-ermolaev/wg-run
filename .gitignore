@@ -2,7 +2,7 @@
 
 #
 
-wg-data
+wireguard
 
 # Dependencies
 node_modules
