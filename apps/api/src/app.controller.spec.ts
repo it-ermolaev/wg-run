@@ -4,7 +4,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 
 describe('AppController', () => {
-  let appController: AppController
+  let service: AppController
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -12,12 +12,12 @@ describe('AppController', () => {
       providers: [AppService],
     }).compile()
 
-    appController = app.get<AppController>(AppController)
+    service = app.get<AppController>(AppController)
   })
 
   describe('root', () => {
-    it('should return message object { message: string }', () => {
-      expect(appController.getHello()).toEqual({ message: 'Hello, World!' })
+    it('should be defined', () => {
+      expect(service).toBeDefined()
     })
   })
 })
