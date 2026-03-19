@@ -12,12 +12,12 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - ./wg-data:/etc/wireguard
+      - ./wireguard:/etc/wireguard
+      - ./scripts/init-wg.sh:/init.sh:ro
     command: >
       sh -c "
         apk add --no-cache wireguard-tools iptables &&
-        mkdir -p /etc/wireguard &&
-        tail -f /dev/null
+        sh /init.sh
       "
     restart: unless-stopped
   wg-client:
@@ -28,10 +28,11 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - ./wg-data:/etc/wireguard
+      - ./wireguard:/etc/wireguard
+      - ./scripts/init-wg-client.sh:/init.sh:ro
     command: >
       sh -c "
         apk add --no-cache wireguard-tools &&
-        tail -f /dev/null
+        sh /init.sh
       "
     restart: unless-stopped
