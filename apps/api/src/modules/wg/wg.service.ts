@@ -2,37 +2,15 @@ import { execSync } from 'child_process'
 
 import { Injectable } from '@nestjs/common'
 
-export interface WgInterface {
-  privateKey: string
-  publicKey: string
-  listenPort: number
-  fwmark: string | null
-}
+import type { WgDump, WgInterface, WgPeer } from './interfaces/wg.interface'
 
-export interface WgPeer {
-  publicKey: string
-  presharedKey: string | null
-  endpoint: string | null
-  allowedIps: string
-  latestHandshake: number
-  transferRx: number
-  transferTx: number
-  persistentKeepalive: number | null
-  isOnline: boolean
-}
-
-export interface WgDump {
-  interface: WgInterface
-  peers: WgPeer[]
-}
-
-const ONLINE_THRESHOLD_SECONDS = 150
+import { ONLINE_THRESHOLD_SECONDS } from './constants/wg.constants'
 
 @Injectable()
-export class AppService {
+export class WgService {
   private readonly prefix = process.env.NODE_ENV === 'production' ? '' : 'docker exec wg'
 
-  exec(command: string): string {
+  private exec(command: string): string {
     const full = this.prefix ? `${this.prefix} ${command}` : command
 
     return execSync(full).toString().trim()
@@ -53,7 +31,6 @@ export class AppService {
 
   private parseInterface(fields: string[]): WgInterface {
     return {
-      privateKey: fields[0],
       publicKey: fields[1],
       listenPort: Number(fields[2]),
       fwmark: this.nullable(fields[3]),
@@ -66,7 +43,6 @@ export class AppService {
 
     return {
       publicKey: fields[0],
-      presharedKey: this.nullable(fields[1]),
       endpoint: this.nullable(fields[2]),
       allowedIps: fields[3],
       latestHandshake,
