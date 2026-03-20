@@ -2,7 +2,7 @@
 
 #
 
-wireguard
+/wireguard
 
 # Dependencies
 node_modules
