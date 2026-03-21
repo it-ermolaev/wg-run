@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common'
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger'
 
-import type { User } from '@repo/database'
-
+import { UserResponseDto } from './dto/users-response.dto'
 import { UsersService } from './users.service'
 
 @Controller('users')
@@ -9,7 +9,9 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  getUsers(): Promise<User[]> {
+  @ApiOperation({ summary: 'Получить список пользователей' })
+  @ApiOkResponse({ description: 'Список пользователей', type: UserResponseDto })
+  getUsers(): Promise<UserResponseDto[]> {
     return this.usersService.getUsers()
   }
 }

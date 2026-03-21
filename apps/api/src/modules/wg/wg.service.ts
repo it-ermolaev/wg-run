@@ -2,9 +2,9 @@ import { execSync } from 'child_process'
 
 import { Injectable } from '@nestjs/common'
 
-import type { WgDump, WgInterface, WgPeer } from './interfaces/wg.interface'
-
 import { ONLINE_THRESHOLD_SECONDS } from './constants/wg.constants'
+import { WgDumpResponseDto } from './dto/wg-dump-response.dto'
+import { WgInterface, WgPeer } from './interfaces/wg.interface'
 
 @Injectable()
 export class WgService {
@@ -16,7 +16,7 @@ export class WgService {
     return execSync(full).toString().trim()
   }
 
-  getDump(): WgDump {
+  getDump(): WgDumpResponseDto {
     const raw = this.exec('wg show wg0 dump')
     const lines = raw.split('\n')
 
@@ -43,12 +43,11 @@ export class WgService {
 
     return {
       publicKey: fields[0],
-      endpoint: this.nullable(fields[2]),
+      endpoint: fields[2],
       allowedIps: fields[3],
       latestHandshake,
       transferRx: Number(fields[5]),
       transferTx: Number(fields[6]),
-      persistentKeepalive: this.nullableNumber(fields[7]),
       isOnline: latestHandshake > 0 && now - latestHandshake < ONLINE_THRESHOLD_SECONDS,
     }
   }
